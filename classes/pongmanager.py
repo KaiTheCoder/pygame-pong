@@ -56,7 +56,7 @@ class PongManager():
                 self.ball.bounce()
             elif self.ball.rect.y >= 500: 
                 self.ball.bounce()
-            elif self.bal.rect.y <= 0:
+            elif self.ball.rect.y <= 0:
                 self.ball.bounce()
 
             self.paddleA.rect.clamp_ip(self.screenRect)
