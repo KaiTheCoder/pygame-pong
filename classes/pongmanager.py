@@ -1,5 +1,4 @@
 import pygame
-from pygame.constants import K_DOWN, K_UP
 from paddle import Paddle
 from ball import PongBall
 
@@ -50,13 +49,16 @@ class PongManager():
             elif self.keys[pygame.K_DOWN]:
                 self.paddleA.MoveDown(MOVE_PIXELS)
 
-            if self.ball.rect.x >= 700:
-                self.ball.bounce()
+            if self.ball.rect.x >= self.screen.get_width():
+                self.ball.bounceX()
             elif self.ball.rect.x <= 0:
-                self.ball.bounce()
-            elif self.ball.rect.y >= 500: 
-                self.ball.bounce()
+                self.ball.bounceX()
+            elif self.ball.rect.y >= self.screen.get_height(): 
+                self.ball.bounceY()
             elif self.ball.rect.y <= 0:
+                self.ball.bounceY()
+
+            if pygame.sprite.collide_mask(self.ball, self.paddleA) or pygame.sprite.collide_mask(self.ball, self.paddleB):
                 self.ball.bounce()
 
             self.paddleA.rect.clamp_ip(self.screenRect)
