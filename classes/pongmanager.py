@@ -36,6 +36,13 @@ class PongManager():
         self.clock = pygame.time.Clock()
         self.gameActive = True
 
+    def process_input(self):
+        self.keys = pygame.key.get_pressed()
+        
+        if self.keys[pygame.K_UP]:
+            self.paddleA.MoveUp(MOVE_PIXELS)
+        elif self.keys[pygame.K_UP]:
+            self.paddleA.MoveDown(MOVE_PIXELS)
 
     def run(self):
         while self.gameActive: 
