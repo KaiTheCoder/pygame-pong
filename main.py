@@ -1,19 +1,14 @@
 import pygame
 pygame.init()
 
-#from classes.pongmanager import PongManager 
-
 from classes.paddle import Paddle
 from classes.ball import PongBall
-
-#pong = PongManager()
-#pong.run()
 
 # Constants
 SURF_COLOR = (60, 50, 168) 
 SPRITE_COLOR = (255, 255, 255)
 
-SCREEN_SIZE = (700, 500)
+SCREEN_SIZE = (600, 400)
 PADDLE_SIZE = [10, 130]
 BALL_SIZE = [10,10]
 
@@ -58,14 +53,16 @@ def process_input():
         pong_player.MoveDown(MOVE_PIXELS)
 
 def handle_ball():
-    if pong_ball.rect.x >= screenX:
+    if pong_ball.rect.x == screenX:
         pong_ball.bounceX()
-    elif pong_ball.rect.x <= 0:
+    elif pong_ball.rect.x == 0:
         pong_ball.bounceX()
-    elif pong_ball.rect.y >= screenY:
+    elif pong_ball.rect.y == screenY:
         pong_ball.bounceY()
-    elif pong_ball.rect.y <= 0:
+    elif pong_ball.rect.y == 0:
         pong_ball.bounceY()
+    elif pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_bot):
+        pong_ball.bounce()
 
 
 while running:
@@ -79,9 +76,9 @@ while running:
     pong_player.rect.clamp_ip(screenArea)
     pong_bot.rect.clamp_ip(screenArea)
 
-    sprites_list.update()
     screen.fill(SURF_COLOR)
-    sprites_list.draw() 
+    sprites_list.draw(screen)
+    sprites_list.update()
 
     pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
     pygame.display.update()
