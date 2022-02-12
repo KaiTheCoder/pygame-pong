@@ -50,7 +50,6 @@ class PongManager():
             elif self.keys[pygame.K_DOWN]:
                 self.paddleA.MoveDown(MOVE_PIXELS)
 
-
             self.paddleA.rect.clamp_ip(self.screenRect)
             self.paddleB.rect.clamp_ip(self.screenRect)
             self.ball.rect.clamp_ip(self.screenRect)
