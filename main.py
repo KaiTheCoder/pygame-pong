@@ -33,8 +33,8 @@ pong_player.rect.y = screenY - 300
 pong_bot.rect.x = screenX - 20
 pong_bot.rect.y = screenY - 300
 
-pong_ball.rect.x = screenX / 2 
-pong_ball.rect.y = screenY / 2
+pong_ball.rect.x = 30 
+pong_ball.rect.y = 205
 
 sprites_list.add(pong_player)
 sprites_list.add(pong_bot)
@@ -53,17 +53,16 @@ def process_input():
         pong_player.MoveDown(MOVE_PIXELS)
 
 def handle_ball():
-    if pong_ball.rect.x == screenX:
+    if pong_ball.rect.x >= screenX:
         pong_ball.bounceX()
-    elif pong_ball.rect.x == 0:
+    if pong_ball.rect.x <= 0:
         pong_ball.bounceX()
-    elif pong_ball.rect.y == screenY:
+    if pong_ball.rect.y >= screenY:
         pong_ball.bounceY()
-    elif pong_ball.rect.y == 0:
+    if pong_ball.rect.y <= 0:
         pong_ball.bounceY()
-    elif pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_bot):
+    if pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_bot):
         pong_ball.bounce()
-
 
 while running:
     for event in pygame.event.get():
@@ -76,12 +75,12 @@ while running:
     pong_player.rect.clamp_ip(screenArea)
     pong_bot.rect.clamp_ip(screenArea)
 
+    sprites_list.update()
     screen.fill(SURF_COLOR)
     sprites_list.draw(screen)
-    sprites_list.update()
 
     pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
-    pygame.display.update()
+    pygame.display.flip()
     
     clock.tick(60)
 
