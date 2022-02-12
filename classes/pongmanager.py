@@ -50,9 +50,17 @@ class PongManager():
             elif self.keys[pygame.K_DOWN]:
                 self.paddleA.MoveDown(MOVE_PIXELS)
 
+            if self.ball.rect.x >= 700:
+                self.ball.bounce()
+            elif self.ball.rect.x <= 0:
+                self.ball.bounce()
+            elif self.ball.rect.y >= 500: 
+                self.ball.bounce()
+            elif self.bal.rect.y <= 0:
+                self.ball.bounce()
+
             self.paddleA.rect.clamp_ip(self.screenRect)
             self.paddleB.rect.clamp_ip(self.screenRect)
-            self.ball.rect.clamp_ip(self.screenRect)
 
             self.spritesList.update()
         
