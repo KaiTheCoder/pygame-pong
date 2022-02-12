@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+#from random import randint
 
 class PongBall(pygame.sprite.Sprite): 
     def __init__(self, size, color, surfColor):
@@ -12,10 +12,11 @@ class PongBall(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, color, [0,0] + size)
 
         self.rect = self.image.get_rect()
-        
+        self.speed = 7 
+
         self.velocity = {
-            'x': randint(-7, 7),
-            'y': randint(-7, 7)
+            'x': self.speed, 
+            'y': self.speed 
         }
 
     def update(self):
@@ -24,7 +25,7 @@ class PongBall(pygame.sprite.Sprite):
 
     def bounce(self):
         self.velocity['x'] = -self.velocity['x']
-        self.velocity['y'] = randint(-7, 7)
+        self.velocity['y'] = self.speed 
 
     def reflectX(self):
         self.velocity['x'] = -self.velocity['x']
