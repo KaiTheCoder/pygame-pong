@@ -12,14 +12,18 @@ from classes.ball import PongBall
 # Constants
 SURF_COLOR = (60, 50, 168) 
 SPRITE_COLOR = (255, 255, 255)
+
 SCREEN_SIZE = (700, 500)
 PADDLE_SIZE = [10, 130]
 BALL_SIZE = [10,10]
+
+MOVE_PIXELS = 7
 
 # Set up display
 screen = pygame.display.set_mode(SCREEN_SIZE)
 screenX = screen.get_width()
 screenY = screen.get_height()
+screenArea = screen.get_rect()
 
 # Set up game assets
 sprites_list = pygame.sprite.Group()
@@ -46,11 +50,42 @@ running = True
 clock = pygame.time.Clock()
 
 def process_input():
-    
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_UP]:
+        pong_player.MoveUp(MOVE_PIXELS)
+    elif keys[pygame.K_DOWN]:
+        pong_player.MoveDown(MOVE_PIXELS)
+
+def handle_ball():
+    if pong_ball.rect.x >= screenX:
+        pong_ball.bounceX()
+    elif pong_ball.rect.x <= 0:
+        pong_ball.bounceX()
+    elif pong_ball.rect.y >= screenY:
+        pong_ball.bounceY()
+    elif pong_ball.rect.y <= 0:
+        pong_ball.bounceY()
+
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    process_input()
+    handle_ball()
+
+    pong_player.rect.clamp_ip(screenArea)
+    pong_bot.rect.clamp_ip(screenArea)
+
+    sprites_list.update()
+    screen.fill(SURF_COLOR)
+    sprites_list.draw() 
+
+    pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
+    pygame.display.update()
+    
+    clock.tick(60)
 
 pygame.quit()
