@@ -49,12 +49,13 @@ class PongManager():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: 
                     self.gameActive = False 
-            
-            self.keys = pygame.key.get_pressed()
-            if self.keys[pygame.K_UP]:
-                self.paddleA.MoveUp(MOVE_PIXELS)
-            elif self.keys[pygame.K_DOWN]:
-                self.paddleA.MoveDown(MOVE_PIXELS)
+           
+            self.process_input()
+            #self.keys = pygame.key.get_pressed()
+            #if self.keys[pygame.K_UP]:
+            #    self.paddleA.MoveUp(MOVE_PIXELS)
+            #elif self.keys[pygame.K_DOWN]:
+            #    self.paddleA.MoveDown(MOVE_PIXELS)
 
             if self.ball.rect.x >= self.screen.get_width():
                 self.ball.bounceX()
