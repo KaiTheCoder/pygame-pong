@@ -26,9 +26,9 @@ class PongBall(pygame.sprite.Sprite):
         self.velocity['x'] = -self.velocity['x']
         self.velocity['y'] = randint(-7, 7)
 
-    def bounceX(self):
+    def reflectX(self):
         self.velocity['x'] = -self.velocity['x']
 
-    def bounceY(self):
+    def reflectY(self):
         self.velocity['y'] = -self.velocity['y']
 

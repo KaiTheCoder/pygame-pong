@@ -54,13 +54,13 @@ def process_input():
 
 def handle_ball():
     if pong_ball.rect.x >= screenX:
-        pong_ball.bounceX()
+        pong_ball.reflectX()
     if pong_ball.rect.x <= 0:
-        pong_ball.bounceX()
+        pong_ball.reflectX()
     if pong_ball.rect.y >= screenY:
-        pong_ball.bounceY()
+        pong_ball.reflectY()
     if pong_ball.rect.y <= 0:
-        pong_ball.bounceY()
+        pong_ball.reflectY()
     if pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_bot):
         pong_ball.bounce()
 
