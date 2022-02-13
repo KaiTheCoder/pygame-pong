@@ -43,12 +43,16 @@ sprites_list.add(player)
 sprites_list.add(player2)
 sprites_list.add(ball)
 
+bot_manager = BotManager([ball, player2, MOVE_PIXELS])
+
 # Setup game loop 
 running = True 
 clock = pygame.time.Clock()
 
 player_score = 0
 player2_score = 0
+
+can_score = False
 
 def process_input():
     keys = pygame.key.get_pressed()
@@ -67,8 +71,20 @@ while running == True:
 
     # Make sure the ball doesn't go off screen
     if ball.x >= screenX:
+        can_score = True
+        
+        if can_score:
+            player_score += 1
+            can_score = False
+       
         ball.reflect_x()
     if ball.x <= 0:
+        can_score = True 
+
+        if can_score:
+            player2_score += 1
+            can_score = False
+        
         ball.reflect_x()
     if ball.y >= screenY or ball.y <= 0:
         ball.reflect_y()
@@ -80,6 +96,7 @@ while running == True:
     player.rect.clamp_ip(screenArea) 
     player2.rect.clamp_ip(screenArea)
 
+    bot_manager.update()
     sprites_list.update()
 
     screen.fill(SURF_COLOR)
