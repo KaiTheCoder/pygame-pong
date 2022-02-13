@@ -30,12 +30,9 @@ ball = Ball(BALL_SIZE, SPRITE_COLOR, SURF_COLOR)
 
 player.x = 20
 player.y = screenY - 300 
-print(player.x)
-
 
 player2.x = screenX - 20
 player2.y = screenY - 300
-print(player2.y)
 
 ball.x = 30  
 ball.y = 205 
@@ -71,7 +68,6 @@ while running:
     # Make sure the ball doesn't go off screen
     if ball.x >= screenX:
         ball.reflect_x()
-        debounce = True
     if ball.x <= 0:
         ball.reflect_x()
     if ball.x >= screenY or ball.y <= 0:
@@ -97,7 +93,7 @@ while running:
     #screen.blit(text, (screenX/2 + 100, 10))
 
     pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
-    pygame.display.update()
+    pygame.display.flip()
     
     clock.tick(60)
 
