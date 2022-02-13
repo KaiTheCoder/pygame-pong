@@ -1,4 +1,4 @@
-class PongBot():
+class BotManager():
 
     def __init__(self, gameAssets):
         ball, bot, paddle_speed = gameAssets
@@ -8,10 +8,7 @@ class PongBot():
         self.paddle_speed = paddle_speed
 
     def update(self):
-        self.ballY = self.ball.rect.y 
-        self.botY = self.bot.rect.y
-
-        if self.ballY > self.botY:
-            self.bot.MoveUp(self.paddle_speed)
-        if self.ballY  < self.botY:
-            self.bot.MoveDown(self.paddle_speed)
+        if self.ball.get_y() > self.bot.get_y():
+            self.bot.move_up(self.paddle_speed)
+        if self.ball.get_y() < self.bot.get_y():
+            self.bot.move_down(self.paddle_speed)
