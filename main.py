@@ -58,7 +58,7 @@ def process_input():
     elif keys[pygame.K_DOWN]:
         player.move_down(MOVE_PIXELS)
 
-while running:
+while running == True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -70,27 +70,27 @@ while running:
         ball.reflect_x()
     if ball.x <= 0:
         ball.reflect_x()
-    if ball.x >= screenY or ball.y <= 0:
+    if ball.y >= screenY or ball.y <= 0:
         ball.reflect_y()
 
     if pygame.sprite.collide_mask(ball, player) or pygame.sprite.collide_mask(ball, player2):
-        ball.reflect_x()
+        ball.bounce()
 
     # Prevent paddles from going off screen
-    #player.rect.clamp_ip(screenArea) 
-    #player2.rect.clamp_ip(screenArea)
+    player.rect.clamp_ip(screenArea) 
+    player2.rect.clamp_ip(screenArea)
 
     sprites_list.update()
 
     screen.fill(SURF_COLOR)
     sprites_list.draw(screen)
 
-    #font = pygame.font.Font(None, 74)
-    #text = font.render(str(player_score), 1, SPRITE_COLOR)
-    #screen.blit(text, (screenX/2/2, 10))
+    font = pygame.font.Font(None, 74)
+    text = font.render(str(player_score), 1, SPRITE_COLOR)
+    screen.blit(text, (screenX/2/2, 10))
 
-    #text = font.render(str(player2_score), 1, SPRITE_COLOR)
-    #screen.blit(text, (screenX/2 + 100, 10))
+    text = font.render(str(player2_score), 1, SPRITE_COLOR)
+    screen.blit(text, (screenX/2 + 100, 10))
 
     pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
     pygame.display.flip()

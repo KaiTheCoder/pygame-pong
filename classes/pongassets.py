@@ -3,7 +3,6 @@ import pygame
 class PongAsset(pygame.sprite.Sprite):
     def __init__(self, size, color, surf_color):
         super().__init__()
-        print("PongAsset created")
 
         self.image = pygame.Surface(size)
         self.image.fill(surf_color)
@@ -12,21 +11,18 @@ class PongAsset(pygame.sprite.Sprite):
         pygame.draw.rect(self.image, color, [0,0] + size)
 
         self.rect = self.image.get_rect()
-        
-        self.rectX = self.rect.x 
-        self.rectY = self.rect.y 
 
     def set_x(self, x):
-        self.rectX = x 
+        self.rect.x = x 
 
     def set_y(self, y):
-        self.rectY = y 
+        self.rect.y = y 
 
     def get_x(self):
-        return self.rectX
+        return self.rect.x
 
     def get_y(self): 
-        return self.rectY
+        return self.rect.y
 
     x = property(get_x, set_x)
     y = property(get_y, set_y)
@@ -36,10 +32,10 @@ class Paddle(PongAsset):
         super().__init__(size, color, surf_color)
 
     def move_up(self, pixels):
-        self.x -= pixels 
+        self.y -= pixels 
 
     def move_down(self, pixels):
-        self.x += pixels
+        self.y += pixels
 
 class Ball(PongAsset):
     def __init__(self, size, color, surf_color):
@@ -57,4 +53,7 @@ class Ball(PongAsset):
 
     def reflect_y(self):
         self.velocity['y'] = -self.velocity['y']
-    
+   
+    def bounce(self):
+        self.velocity['x'] = -self.velocity['x']
+        self.velocity['y'] = self.speed
