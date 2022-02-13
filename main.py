@@ -42,12 +42,18 @@ sprites_list.add(pong_player)
 sprites_list.add(pong_player2)
 sprites_list.add(pong_ball)
 
-game_assets = [pong_ball, pong_player, pong_player2, MOVE_PIXELS]
+game_assets = [pong_ball, pong_player2, MOVE_PIXELS]
 pong_bot = PongBot(game_assets)
 
 # Setup game loop 
 running = True 
 clock = pygame.time.Clock()
+
+player_score = 0
+player2_score = 0
+max_score = 11
+
+debounce = True
 
 def process_input():
     keys = pygame.key.get_pressed()
@@ -57,37 +63,49 @@ def process_input():
     elif keys[pygame.K_DOWN]:
         pong_player.MoveDown(MOVE_PIXELS)
 
-def handle_ball():
-    if pong_ball.rect.x >= screenX:
-        pong_ball.reflectX()
-    if pong_ball.rect.x <= 0:
-        pong_ball.reflectX()
-    if pong_ball.rect.y >= screenY:
-        pong_ball.reflectY()
-    if pong_ball.rect.y <= 0:
-        pong_ball.reflectY()
-    if pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_player2):
-        pong_ball.bounce()
-
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
     process_input()
-    handle_ball()
 
-    pong_bot.update()
+    # Make sure the ball doesn't go off screen
+    if pong_ball.rect.x >= screenX and debounce == True:
+        debounce = False 
+        player_score += 1
+        pong_ball.reflectX()
+        debounce = True
+    if pong_ball.rect.x <= 0 and debounce == True:
+        debounce = False
+        player2_score += 1
+        pong_ball.reflectX()
+        debounce = True
+    if pong_ball.rect.y >= screenY or pong_ball.rect.y <= 0:
+        pong_ball.reflectY()
 
-    pong_player.rect.clamp_ip(screenArea)
+    if pygame.sprite.collide_mask(pong_ball, pong_player) or pygame.sprite.collide_mask(pong_ball, pong_player2):
+        pong_ball.bounce()
+
+    # Prevent paddles from going off screen
+    pong_player.rect.clamp_ip(screenArea) 
     pong_player2.rect.clamp_ip(screenArea)
 
     sprites_list.update()
+    pong_bot.update()
+
     screen.fill(SURF_COLOR)
     sprites_list.draw(screen)
 
+    font = pygame.font.Font(None, 74)
+    text = font.render(str(player_score), 1, SPRITE_COLOR)
+    screen.blit(text, (screenX/2/2, 10))
+
+    text = font.render(str(player2_score), 1, SPRITE_COLOR)
+    screen.blit(text, (screenX/2 + 100, 10))
+
     pygame.draw.line(screen, SPRITE_COLOR, [screenX/2, 0], [screenX/2, screenY])
-    pygame.display.flip()
+    pygame.display.update()
     
     clock.tick(60)
 

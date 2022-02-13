@@ -15,7 +15,6 @@ class Paddle(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-
     def MoveUp(self, pixels):
         self.rect.y -= pixels
 
@@ -24,4 +23,3 @@ class Paddle(pygame.sprite.Sprite):
 
     def SetScore(self, score):
         self.score = score
-        
