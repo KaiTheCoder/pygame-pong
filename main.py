@@ -5,6 +5,7 @@ pygame.init()
 #from classes.ball import PongBall
 from classes.pongbot import BotManager 
 from classes.pongassets import Paddle, Ball
+from classes.gamemanager import GameManager
 
 # Constants
 SURF_COLOR = (60, 50, 168) 
@@ -44,7 +45,7 @@ sprites_list.add(player2)
 sprites_list.add(ball)
 
 bot_manager = BotManager([ball, player2, MOVE_PIXELS])
-
+game_manager = GameManager(screen, [ball, player, player2])
 # Setup game loop 
 running = True 
 clock = pygame.time.Clock()
@@ -68,6 +69,13 @@ while running == True:
             running = False
 
     process_input()
+
+    if player_score == 11 or player2_score == 11:
+        player_score = 0
+        player2_score = 0
+
+        game_manager.reset()
+
 
     # Make sure the ball doesn't go off screen
     if ball.x >= screenX:
