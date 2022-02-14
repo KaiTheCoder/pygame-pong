@@ -1,14 +1,19 @@
+import pygame 
+from random import randint
+
 class BotManager():
 
     def __init__(self, gameAssets):
-        ball, bot, paddle_speed = gameAssets
+        ball, bot = gameAssets
 
         self.ball = ball
         self.bot = bot
-        self.paddle_speed = paddle_speed
+        self.paddle_speed = 6 
 
     def update(self):
-        if self.ball.get_y() > self.bot.get_y():
-            self.bot.move_up(self.paddle_speed)
-        if self.ball.get_y() < self.bot.get_y():
+
+        if self.bot.y < self.ball.y:
             self.bot.move_down(self.paddle_speed)
+        if self.bot.y > self.ball.y: 
+            self.bot.move_up(self.paddle_speed)
+

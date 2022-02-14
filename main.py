@@ -4,18 +4,18 @@ pygame.init()
 #from classes.paddle import Paddle
 #from classes.ball import PongBall
 from classes.pongbot import BotManager 
-from classes.pongassets import Paddle, Ball
+from classes.pongassets import Paddle, VecBall
 from classes.gamemanager import GameManager
 
 # Constants
-SURF_COLOR = (60, 50, 168) 
+SURF_COLOR = (139,0,0) 
 SPRITE_COLOR = (255, 255, 255)
 
-SCREEN_SIZE = (600, 400)
+SCREEN_SIZE = (700, 400)
 PADDLE_SIZE = [10, 130]
 BALL_SIZE = [10,10]
 
-MOVE_PIXELS = 7
+MOVE_PIXELS = 8 
 
 # Set up display
 screen = pygame.display.set_mode(SCREEN_SIZE)
@@ -27,7 +27,9 @@ screenArea = screen.get_rect()
 # Set up game assets
 player = Paddle(PADDLE_SIZE, SPRITE_COLOR, SURF_COLOR)
 player2 = Paddle(PADDLE_SIZE, SPRITE_COLOR, SURF_COLOR)
-ball = Ball(BALL_SIZE, SPRITE_COLOR, SURF_COLOR)
+#ball = Ball(BALL_SIZE, SPRITE_COLOR, SURF_COLOR)
+
+ball = VecBall(BALL_SIZE, SPRITE_COLOR, SURF_COLOR)
 
 player.x = 20
 player.y = screenY - 300 
@@ -40,11 +42,11 @@ ball.y = 205
 
 sprites_list = pygame.sprite.Group()
 
+sprites_list.add(ball)
 sprites_list.add(player)
 sprites_list.add(player2)
-sprites_list.add(ball)
 
-bot_manager = BotManager([ball, player2, MOVE_PIXELS])
+bot_manager = BotManager([ball, player2])
 game_manager = GameManager(screen, [ball, player, player2])
 # Setup game loop 
 running = True 
@@ -78,23 +80,15 @@ while running == True:
 
 
     # Make sure the ball doesn't go off screen
-    if ball.x >= screenX:
-        can_score = True
-        
-        if can_score:
-            player_score += 1
-            can_score = False
-       
+    if ball.x >= screenX - 2:
+        player_score += 1
         ball.reflect_x()
     if ball.x <= 0:
-        can_score = True 
-
-        if can_score:
-            player2_score += 1
-            can_score = False
-        
+        player2_score += 1
         ball.reflect_x()
-    if ball.y >= screenY or ball.y <= 0:
+    if ball.y >= screenY:
+        ball.reflect_y()
+    if ball.y <= 0:
         ball.reflect_y()
 
     if pygame.sprite.collide_mask(ball, player) or pygame.sprite.collide_mask(ball, player2):

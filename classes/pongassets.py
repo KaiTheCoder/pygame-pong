@@ -1,4 +1,5 @@
 import pygame 
+import math
 
 class PongAsset(pygame.sprite.Sprite):
     def __init__(self, size, color, surf_color):
@@ -24,6 +25,12 @@ class PongAsset(pygame.sprite.Sprite):
     def get_y(self): 
         return self.rect.y
 
+    def get_center(self):
+        return self.rect.center 
+
+    def set_center(self, center):
+        self.rect.center = center
+
     x = property(get_x, set_x)
     y = property(get_y, set_y)
 
@@ -37,23 +44,32 @@ class Paddle(PongAsset):
     def move_down(self, pixels):
         self.y += pixels
 
-class Ball(PongAsset):
+class VecBall(PongAsset):
+
     def __init__(self, size, color, surf_color):
         super().__init__(size, color, surf_color)
         
-        self.speed = 7
-        self.velocity = {'x': self.speed, 'y': self.speed}
+        self.angle = 45 
+        self.speed = 12 
+
+        self.velocity = { 
+            'x': self.speed * math.cos(self.angle),
+            'y': self.speed * math.sin(self.angle)
+        }
 
     def update(self):
         self.x += self.velocity['x']
-        self.y += self.velocity['y']
+        self.y += self.velocity['y'] 
 
-    def reflect_x(self):
+    def reflect_x(self): 
         self.velocity['x'] = -self.velocity['x']
 
     def reflect_y(self):
         self.velocity['y'] = -self.velocity['y']
-   
-    def bounce(self):
+
+    def bounce(self): 
         self.velocity['x'] = -self.velocity['x']
-        self.velocity['y'] = self.speed
+        self.velocity['y'] = -self.velocity['y']
+
+
+

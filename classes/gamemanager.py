@@ -14,10 +14,9 @@ class GameManager():
         self.botY = self.bot.y  
 
     def reset(self):
-        time.sleep(1)
         self.ball.x = self.ballX 
-        self.ball.y = self.ballY 
-        
+        self.ball.y = self.ballY
+
         self.player.x = self.playerX 
         self.player.y = self.playerY 
 
